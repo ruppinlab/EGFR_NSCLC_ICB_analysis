@@ -209,9 +209,11 @@ idx_combo <- DD$treatment_type %in% c("Combination","Dual ICB (anti-PD1+anti-CTL
 library(lmtest)
 D1 <- DD
 D1$EGFR <- c("MUT","WT")[as.numeric(DD$EGFR_status %in% c("WT"))+1]
-m <- lm(response ~ EGFR + TMB, data = D1[!idx_combo,])
+m1 <- lm(response ~ TMB, data = DD[!idx_combo,])
+m2 <- lm(response ~ TMB + EGFR, data = D1[!idx_combo,])
 
-print(summary(m))
+print(lrtest(m1,m2))
+print(summary(m2))
 ```
 
 

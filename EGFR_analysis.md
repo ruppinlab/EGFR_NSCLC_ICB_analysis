@@ -361,14 +361,29 @@ library(lmtest)
 ``` r
 D1 <- DD
 D1$EGFR <- c("MUT","WT")[as.numeric(DD$EGFR_status %in% c("WT"))+1]
-m <- lm(response ~ EGFR + TMB, data = D1[!idx_combo,])
+m1 <- lm(response ~ TMB, data = DD[!idx_combo,])
+m2 <- lm(response ~ TMB + EGFR, data = D1[!idx_combo,])
 
-print(summary(m))
+print(lrtest(m1,m2))
+```
+
+    ## Likelihood ratio test
+    ## 
+    ## Model 1: response ~ TMB
+    ## Model 2: response ~ TMB + EGFR
+    ##   #Df  LogLik Df  Chisq Pr(>Chisq)  
+    ## 1   3 -184.24                       
+    ## 2   4 -181.38  1 5.7262    0.01671 *
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+print(summary(m2))
 ```
 
     ## 
     ## Call:
-    ## lm(formula = response ~ EGFR + TMB, data = D1[!idx_combo, ])
+    ## lm(formula = response ~ TMB + EGFR, data = D1[!idx_combo, ])
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
@@ -377,8 +392,8 @@ print(summary(m))
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
     ## (Intercept)  0.13322    0.08557   1.557   0.1206    
-    ## EGFRWT       0.21529    0.08999   2.392   0.0174 *  
     ## TMB          0.11932    0.02650   4.502 9.79e-06 ***
+    ## EGFRWT       0.21529    0.08999   2.392   0.0174 *  
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 

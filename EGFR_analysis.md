@@ -360,7 +360,7 @@ library(lmtest)
 
 ``` r
 D1 <- DD
-D1$EGFR <- c("MUT","WT")[as.numeric(DD$EGFR_status %in% c("WT","other"))+1]
+D1$EGFR <- c("MUT","WT")[as.numeric(DD$EGFR_status %in% c("WT"))+1]
 m <- lm(response ~ EGFR + TMB, data = D1[!idx_combo,])
 
 print(summary(m))
@@ -372,90 +372,20 @@ print(summary(m))
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -0.8215 -0.3171 -0.2626  0.5628  0.9134 
+    ## -0.8650 -0.3209 -0.2547  0.5562  0.9398 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)   0.1155     0.1110   1.041   0.2986    
-    ## EGFRWT        0.2255     0.1144   1.971   0.0497 *  
-    ## TMB           0.1110     0.0268   4.141 4.55e-05 ***
+    ## (Intercept)  0.13322    0.08557   1.557   0.1206    
+    ## EGFRWT       0.21529    0.08999   2.392   0.0174 *  
+    ## TMB          0.11932    0.02650   4.502 9.79e-06 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.4541 on 289 degrees of freedom
+    ## Residual standard error: 0.4527 on 289 degrees of freedom
     ##   (162 observations deleted due to missingness)
-    ## Multiple R-squared:  0.07528,    Adjusted R-squared:  0.06888 
-    ## F-statistic: 11.76 on 2 and 289 DF,  p-value: 1.227e-05
-
-``` r
-library(lmtest)
-m <- lm(response ~ EGFR + TMB, data = DD)
-print(summary(m))
-```
-
-    ## 
-    ## Call:
-    ## lm(formula = response ~ EGFR + TMB, data = DD)
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -0.9765 -0.3503 -0.2865  0.5594  0.8294 
-    ## 
-    ## Coefficients:
-    ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  0.26697    0.06801   3.926 0.000102 ***
-    ## EGFRWT       0.12731    0.07229   1.761 0.078956 .  
-    ## TMB          0.13451    0.02325   5.785 1.45e-08 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 0.466 on 406 degrees of freedom
-    ##   (177 observations deleted due to missingness)
-    ## Multiple R-squared:  0.08396,    Adjusted R-squared:  0.07944 
-    ## F-statistic: 18.61 on 2 and 406 DF,  p-value: 1.858e-08
-
-``` r
-library(lmtest)
-m1 <- lm(response ~ TMB, data = DD[!idx_combo & !DD$EGFR_status == "other",])
-m2 <- lm(response ~ TMB + EGFR, data = DD[!idx_combo & !DD$EGFR_status == "other",])
-print(lrtest(m1,m2))
-```
-
-    ## Likelihood ratio test
-    ## 
-    ## Model 1: response ~ TMB
-    ## Model 2: response ~ TMB + EGFR
-    ##   #Df  LogLik Df  Chisq Pr(>Chisq)  
-    ## 1   3 -177.67                       
-    ## 2   4 -175.75  1 3.8295    0.05036 .
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-``` r
-print(summary(m2))
-```
-
-    ## 
-    ## Call:
-    ## lm(formula = response ~ TMB + EGFR, data = DD[!idx_combo & !DD$EGFR_status == 
-    ##     "other", ])
-    ## 
-    ## Residuals:
-    ##     Min      1Q  Median      3Q     Max 
-    ## -0.9013 -0.3189 -0.2581  0.5607  0.9092 
-    ## 
-    ## Coefficients:
-    ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  0.12409    0.11145   1.113   0.2665    
-    ## TMB          0.12769    0.03147   4.057 6.46e-05 ***
-    ## EGFRWT       0.22442    0.11491   1.953   0.0518 .  
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-    ## 
-    ## Residual standard error: 0.4547 on 278 degrees of freedom
-    ##   (146 observations deleted due to missingness)
-    ## Multiple R-squared:  0.07624,    Adjusted R-squared:  0.06959 
-    ## F-statistic: 11.47 on 2 and 278 DF,  p-value: 1.633e-05
+    ## Multiple R-squared:  0.08105,    Adjusted R-squared:  0.07469 
+    ## F-statistic: 12.74 on 2 and 289 DF,  p-value: 4.962e-06
 
 ``` r
 library(lmtest)
@@ -498,23 +428,6 @@ print(summary(m2))
     ## F-statistic: 8.931 on 2 and 114 DF,  p-value: 0.0002494
 
 ``` r
-library(lmtest)
-m1 <- lm(response ~ TMB, data = DD)
-m2 <- lm(response ~ TMB + EGFR, data = DD)
-print(lrtest(m1,m2))
-```
-
-    ## Likelihood ratio test
-    ## 
-    ## Model 1: response ~ TMB
-    ## Model 2: response ~ TMB + EGFR
-    ##   #Df  LogLik Df  Chisq Pr(>Chisq)  
-    ## 1   3 -268.12                       
-    ## 2   4 -266.57  1 3.1129    0.07767 .
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-``` r
 library(dplyr)
 ```
 
@@ -538,7 +451,7 @@ p1 <- ggplot(summary_dat, aes(fill=response, y=n, x=EGFR_status)) + scale_x_disc
 print(p1)
 ```
 
-![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 ``` r
 pdf("~/Yossi/Figure1A_all.pdf")
@@ -587,7 +500,7 @@ p1 <- ggplot(summary_dat, aes(fill=response, y=n, x=EGFR_status)) + scale_x_disc
 print(p1)
 ```
 
-![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-14-1.png)
+![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 ``` r
 pdf("~/Yossi/Figure1A_PD1_PDL1_only.pdf")
@@ -636,7 +549,7 @@ p1 <- ggplot(summary_dat, aes(fill=response, y=n, x=EGFR_status)) + scale_x_disc
 print(p1)
 ```
 
-![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-15-1.png)
+![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 ``` r
 pdf("~/Yossi/Figure1A_PD1_CTLA4.pdf")
@@ -751,7 +664,7 @@ print(p2)
     ## Warning: Computation failed in `stat_compare_means()`:
     ## all observations are in the same group
 
-![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-20-1.png)
+![](EGFR_analysis_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 ``` r
 pdf("~/Yossi/Figure1B.pdf")
@@ -792,60 +705,44 @@ print(table(nsclc_all$EGFR_status))
     ##          117           37           77           80         1277
 
 ``` r
-tcga_luad_tpm <- readRDS("~/forKun/TCGA/lung_NSCLC_adenocarcinoma_exp_deconv/bulk.rds")
-tcga_lusc_tpm <- readRDS("~/forKun/TCGA/lung_NSCLC_squamous_cell_carcinoma_exp_deconv/bulk.rds")
-tcga_nsclc_tpm <- cbind(tcga_luad_tpm,tcga_lusc_tpm)
-colnames(tcga_nsclc_tpm) <- substr(colnames(tcga_nsclc_tpm),1,12)
+#tcga_luad_tpm <- readRDS("~/forKun/TCGA/lung_NSCLC_adenocarcinoma_exp_deconv/bulk.rds")
+#tcga_lusc_tpm <- readRDS("~/forKun/TCGA/lung_NSCLC_squamous_cell_carcinoma_exp_deconv/bulk.rds")
+#tcga_nsclc_tpm <- cbind(tcga_luad_tpm,tcga_lusc_tpm)
+#colnames(tcga_nsclc_tpm) <- substr(colnames(tcga_nsclc_tpm),1,12)
 ```
 
 ``` r
-idx_PD1_resistant <- sapply(colnames(tcga_nsclc_tpm), function(x) x %in% tcga_nsclc$Sample_ID[tcga_nsclc$EGFR_status %in% c("In_Frame_Ins","L858R")])
-all <- sapply(colnames(tcga_nsclc_tpm), function(x) x %in% tcga_nsclc$Sample_ID[tcga_nsclc$EGFR_status %in% c("In_Frame_Ins","L858R","In_Frame_Del")])
+#idx_PD1_resistant <- sapply(colnames(tcga_nsclc_tpm), function(x) x %in% tcga_nsclc$Sample_ID[tcga_nsclc$EGFR_status %in% c("In_Frame_Ins","L858R")])
+#all <- sapply(colnames(tcga_nsclc_tpm), function(x) x %in% tcga_nsclc$Sample_ID[tcga_nsclc$EGFR_status %in% c("In_Frame_Ins","L858R","In_Frame_Del")])
 ```
 
 ``` r
-library(limma)
-design_mat <- as.matrix(data.frame(NR = 1, ResistantvsNonresistant = as.numeric(idx_PD1_resistant[all])))
-fit <- lmFit(log2(tcga_nsclc_tpm[,all]+1), design = design_mat)
-fit <- eBayes(fit)
-```
-
-    ## Warning: Zero sample variances detected, have been offset away from zero
-
-``` r
-de <- topTable(fit, coef="ResistantvsNonresistant", adjust="BH",number = nrow(tcga_nsclc_tpm))
+#library(limma)
+#design_mat <- as.matrix(data.frame(NR = 1, ResistantvsNonresistant = as.numeric(idx_PD1_resistant[all])))
+#fit <- lmFit(log2(tcga_nsclc_tpm[,all]+1), design = design_mat)
+#fit <- eBayes(fit)
+#de <- topTable(fit, coef="ResistantvsNonresistant", adjust="BH",number = nrow(tcga_nsclc_tpm))
 #View(de)
 ```
 
 ``` r
-final_set <- de[(de$logFC > log2(1.2) | de$logFC < -log2(1.2)) & de$adj.P.Val < 0.05,]
+#final_set <- de[(de$logFC > log2(1.2) | de$logFC < -log2(1.2)) & de$adj.P.Val < 0.05,]
 
-write.table(final_set, file = "~/Yossi/DE_EGFR_common_mutants_vs_rest.tsv",sep = "\t", quote = F)
+#write.table(final_set, file = "~/Yossi/DE_EGFR_common_mutants_vs_rest.tsv",sep = "\t", quote = F)
 ```
 
 ``` r
-library(msigdbr)
-library(fgsea)
-```
+#library(msigdbr)
+#library(fgsea)
+#gsea <- list()
+#m_df <- msigdbr(species = "Homo sapiens", category = "C5")
+#m_list <- m_df %>% split(x = .$gene_symbol, f = .$gs_name)
 
-    ## Loading required package: Rcpp
-
-``` r
-gsea <- list()
-m_df <- msigdbr(species = "Homo sapiens", category = "C5")
-m_list <- m_df %>% split(x = .$gene_symbol, f = .$gs_name)
-
-ranking <- seq(nrow(final_set))
-names(ranking) <- rownames(final_set)[order(final_set$logFC, decreasing = T)]
+#ranking <- seq(nrow(final_set))
+#names(ranking) <- rownames(final_set)[order(final_set$logFC, decreasing = T)]
 #load("~/Single Cell/forKun/kegg.pathway.gsets.RData")
 
 
-fgseaRes_C2CP <- fgsea(m_list, ranking, nperm = 10000, maxSize = 50, minSize = 15)
-```
-
-    ## Warning in fgsea(m_list, ranking, nperm = 10000, maxSize = 50, minSize = 15):
-    ## There are duplicate gene names, fgsea may produce unexpected results
-
-``` r
-fgseaRes_C2CP <- fgseaRes_C2CP[order(fgseaRes_C2CP$padj),]
+#fgseaRes_C2CP <- fgsea(m_list, ranking, nperm = 10000, maxSize = 50, minSize = 15)
+#fgseaRes_C2CP <- fgseaRes_C2CP[order(fgseaRes_C2CP$padj),]
 ```
